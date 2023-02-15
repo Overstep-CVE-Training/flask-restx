@@ -229,8 +229,6 @@ class Api(object):
         self.license_url = kwargs.get("license_url", self.license_url)
         self.url_scheme = kwargs.get("url_scheme", self.url_scheme)
         self._add_specs = kwargs.get("add_specs", True)
-        self._register_specs(app)
-        self._register_doc(app)
 
         # If app is a blueprint, defer the initialization
         try:
@@ -240,6 +238,9 @@ class Api(object):
             self._init_app(app)
         else:
             self.blueprint = app
+        finally:
+            self._register_specs(app)
+            self._register_doc(app)
 
     def _init_app(self, app):
         """
